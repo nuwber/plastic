@@ -1,9 +1,13 @@
 <?php
 
+namespace Nuwber\Plastic\Tests\DSL;
+
+use Mockery;
 use Nuwber\Plastic\DSL\SearchBuilder;
 use Nuwber\Plastic\PlasticResult;
+use Nuwber\Plastic\Tests\TestCase;
 
-class SearchBuilderTest extends PHPUnit_Framework_TestCase
+class SearchBuilderTest extends TestCase
 {
     /**
      * @test
@@ -59,7 +63,7 @@ class SearchBuilderTest extends PHPUnit_Framework_TestCase
     public function it_throws_an_exception_if_provided_with_a_none_searchable_model()
     {
         $builder = $this->getBuilder();
-        $this->setExpectedException('Nuwber\Plastic\Exception\InvalidArgumentException');
+        $this->expectException('Nuwber\Plastic\Exception\InvalidArgumentException');
         $builder->model(new NotSearchableModelBuilder());
     }
 
@@ -250,24 +254,6 @@ class SearchBuilderTest extends PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function it_set_a_geoDistanceRange_query()
-    {
-        $builder = $this->getBuilder();
-        $builder->geoDistanceRange('location', '0km', '12km', ['lat' => 1, 'long' => 2]);
-        $this->assertEquals([
-            'query' => [
-                'geo_distance_range' => [
-                    'from'     => '0km',
-                    'to'       => '12km',
-                    'location' => ['lat' => 1, 'long' => 2],
-                ],
-            ],
-        ], $builder->toDSL());
-    }
-
-    /**
-     * @test
-     */
     public function it_set_a_geoPolygon_query()
     {
         $builder = $this->getBuilder();
@@ -295,9 +281,10 @@ class SearchBuilderTest extends PHPUnit_Framework_TestCase
                 'geo_shape' => [
                     'area' => [
                         'shape' => [
-                            'type'        => 'point',
+                            'type' => 'point',
                             'coordinates' => [3.3, 33.3],
                         ],
+                        'relation' => 'intersects'
                     ],
                 ],
             ],
@@ -438,7 +425,7 @@ class SearchBuilderTest extends PHPUnit_Framework_TestCase
         $builder = $this->getBuilder();
         $builder->highlight();
 
-        $this->assertEquals(['highlight' => ['pre_tags' => ['<mark>'], 'post_tags' => ['</mark>'], 'fields' => ['_all' => new stdClass()]]], $builder->toDSL());
+        $this->assertEquals(['highlight' => ['pre_tags' => ['<mark>'], 'post_tags' => ['</mark>'], 'fields' => ['_all' => new \stdClass()]]], $builder->toDSL());
     }
 
     /** @test */
@@ -569,12 +556,12 @@ class SearchBuilderTest extends PHPUnit_Framework_TestCase
         $filler = Mockery::mock('Nuwber\Plastic\Fillers\EloquentFiller');
         $builder->setModelFiller($filler);
         $return = [
-            'took'      => '200',
+            'took' => '200',
             'timed_out' => false,
-            '_shards'   => 2,
-            'hits'      => [
-                'hits'      => [],
-                'total'     => 0,
+            '_shards' => 2,
+            'hits' => [
+                'hits' => [],
+                'total' => ['value' => 0],
                 'max_score' => 0,
             ],
         ];
@@ -597,12 +584,12 @@ class SearchBuilderTest extends PHPUnit_Framework_TestCase
         $builder = $this->getBuilder();
 
         $result = new PlasticResult([
-            'took'      => '200',
+            'took' => '200',
             'timed_out' => false,
-            '_shards'   => 2,
-            'hits'      => [
-                'hits'      => [],
-                'total'     => 0,
+            '_shards' => 2,
+            'hits' => [
+                'hits' => [],
+                'total' => ['value' => 0],
                 'max_score' => 0,
             ],
         ]);
@@ -621,12 +608,12 @@ class SearchBuilderTest extends PHPUnit_Framework_TestCase
         $builder = $this->getBuilder();
 
         $result = new PlasticResult([
-            'took'      => '200',
+            'took' => '200',
             'timed_out' => false,
-            '_shards'   => 2,
-            'hits'      => [
-                'hits'      => [],
-                'total'     => 0,
+            '_shards' => 2,
+            'hits' => [
+                'hits' => [],
+                'total' => ['value' => 0],
                 'max_score' => 0,
             ],
         ]);
@@ -653,6 +640,9 @@ class SearchBuilderTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($builder->hasMacro('sortByID'));
     }
 
+    /**
+     * @return Mockery\Mock | SearchBuilder
+     */
     private function getBuilder()
     {
         $connection = Mockery::mock('Nuwber\Plastic\Connection');

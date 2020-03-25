@@ -1,6 +1,8 @@
 <?php
 
-class SearchableTest extends \PHPUnit_Framework_TestCase
+namespace Nuwber\Plastic\Tests;
+
+class SearchableTest extends TestCase
 {
     /**
      * @test

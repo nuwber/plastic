@@ -1,6 +1,10 @@
 <?php
 
-class PlasticConnectionTest extends \PHPUnit_Framework_TestCase
+namespace Nuwber\Plastic\Tests;
+
+use Mockery;
+
+class PlasticConnectionTest extends TestCase
 {
     /**
      * @test
@@ -9,7 +13,7 @@ class PlasticConnectionTest extends \PHPUnit_Framework_TestCase
     {
         $connection = $this->getConnectionMock();
 
-        $this->assertInstanceOf(Nuwber\Plastic\Map\Builder::class, $connection->getMapBuilder());
+        $this->assertInstanceOf(\Nuwber\Plastic\Map\Builder::class, $connection->getMapBuilder());
     }
 
     /**
@@ -31,7 +35,7 @@ class PlasticConnectionTest extends \PHPUnit_Framework_TestCase
     {
         $connection = $this->getConnectionMock();
 
-        $this->assertInstanceOf(Nuwber\Plastic\Map\Grammar::class, $connection->getMapGrammar());
+        $this->assertInstanceOf(\Nuwber\Plastic\Map\Grammar::class, $connection->getMapGrammar());
     }
 
     /**
@@ -41,7 +45,7 @@ class PlasticConnectionTest extends \PHPUnit_Framework_TestCase
     {
         $connection = $this->getConnectionMock();
 
-        $this->assertInstanceOf(ONGR\ElasticsearchDSL\Search::class, $connection->getDSLQuery());
+        $this->assertInstanceOf(\ONGR\ElasticsearchDSL\Search::class, $connection->getDSLQuery());
     }
 
     /**
@@ -166,7 +170,7 @@ class PlasticConnectionTest extends \PHPUnit_Framework_TestCase
 
         $connection->setClient($client);
 
-        $this->assertEquals('ok', $connection->existsStatement([]));
+        $this->assertEquals(true, $connection->existsStatement([]));
     }
 
     /**
@@ -238,7 +242,7 @@ class PlasticConnectionTest extends \PHPUnit_Framework_TestCase
     {
         $connection = $this->getConnectionMock();
 
-        $this->assertInstanceOf(Nuwber\Plastic\Persistence\EloquentPersistence::class, $connection->persist(new TestModel()));
+        $this->assertInstanceOf(\Nuwber\Plastic\Persistence\EloquentPersistence::class, $connection->persist(new TestModel()));
     }
 
     /**
@@ -253,9 +257,10 @@ class PlasticConnectionTest extends \PHPUnit_Framework_TestCase
     {
         $config = $config ? $config : ['index' => 'plastic', 'connection' => ['hosts' => ['127.0.0.1:9200']]];
 
-        $methods = $methods ? $methods : null;
-
-        $connection = $this->getMock('Nuwber\Plastic\Connection', $methods, [$config]);
+        $connection = $this->getMockBuilder('Nuwber\Plastic\Connection')
+            ->addMethods($methods)
+            ->setConstructorArgs([$config])
+            ->getMock();
 
         return $connection;
     }

@@ -1,6 +1,11 @@
 <?php
 
-class MappingCreatorTest extends \PHPUnit_Framework_TestCase
+namespace Nuwber\Plastic\Tests\Mappings;
+
+use Mockery;
+use Nuwber\Plastic\Tests\TestCase;
+
+class MappingCreatorTest extends TestCase
 {
     /**
      * @test

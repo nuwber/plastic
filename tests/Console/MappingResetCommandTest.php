@@ -1,6 +1,11 @@
 <?php
 
-class MappingResetCommandTest extends \PHPUnit_Framework_TestCase
+namespace Nuwber\Plastic\Tests\DSL;
+
+use Mockery;
+use Nuwber\Plastic\Tests\TestCase;
+
+class MappingResetCommandTest extends TestCase
 {
     /**
      * @test
@@ -11,7 +16,7 @@ class MappingResetCommandTest extends \PHPUnit_Framework_TestCase
         $vendorDir = __DIR__.'/vendor';
         $command = new \Nuwber\Plastic\Console\Mapping\Reset($repo, $vendorDir);
 
-        $app = Mockery::mock(new Illuminate\Container\Container())->makePartial();
+        $app = Mockery::mock(new \Illuminate\Container\Container())->makePartial();
         $app->shouldReceive('environment')->andReturn('local');
         $repo->shouldReceive('setSource')->once()->with(null);
 
@@ -29,7 +34,7 @@ class MappingResetCommandTest extends \PHPUnit_Framework_TestCase
         $vendorDir = __DIR__.'/vendor';
         $command = new \Nuwber\Plastic\Console\Mapping\Reset($repo, $vendorDir);
 
-        $app = Mockery::mock(new Illuminate\Container\Container())->makePartial();
+        $app = Mockery::mock(new \Illuminate\Container\Container())->makePartial();
         $app->shouldReceive('environment')->andReturn('local');
         $repo->shouldReceive('setSource')->once()->with('foo');
 
@@ -40,6 +45,6 @@ class MappingResetCommandTest extends \PHPUnit_Framework_TestCase
 
     protected function runCommand($command, $input = [])
     {
-        return $command->run(new Symfony\Component\Console\Input\ArrayInput($input), new Symfony\Component\Console\Output\NullOutput());
+        return $command->run(new \Symfony\Component\Console\Input\ArrayInput($input), new \Symfony\Component\Console\Output\NullOutput());
     }
 }

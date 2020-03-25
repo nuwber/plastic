@@ -1,13 +1,14 @@
 <?php
 
-namespace plastic\tests\Persistence;
+namespace Nuwber\Plastic\Tests\Persistence;
 
 use Illuminate\Database\Eloquent\Model;
 use Nuwber\Plastic\Connection;
 use Nuwber\Plastic\Persistence\EloquentPersistence;
 use Nuwber\Plastic\Searchable;
+use Nuwber\Plastic\Tests\TestCase;
 
-class EloquentPersistenceTest extends \PHPUnit_Framework_TestCase
+class EloquentPersistenceTest extends TestCase
 {
     /**
      * @test
@@ -40,7 +41,7 @@ class EloquentPersistenceTest extends \PHPUnit_Framework_TestCase
 
         $model->exists = false;
 
-        $this->setExpectedException('Exception');
+        $this->expectException('Exception');
         $persistence = new EloquentPersistence($connection);
         $persistence->model($model);
         $persistence->save();
@@ -78,7 +79,7 @@ class EloquentPersistenceTest extends \PHPUnit_Framework_TestCase
 
         $model->exists = false;
 
-        $this->setExpectedException('Exception');
+        $this->expectException('Exception');
         $persistence = new EloquentPersistence($connection);
         $persistence->model($model);
         $persistence->update();

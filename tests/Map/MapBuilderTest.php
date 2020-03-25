@@ -1,6 +1,12 @@
 <?php
 
-class MapBuilderTest extends \PHPUnit_Framework_TestCase
+namespace Nuwber\Plastic\Tests\Map;
+
+
+use Mockery;
+use Nuwber\Plastic\Tests\TestCase;
+
+class MapBuilderTest extends TestCase
 {
     /**
      * @test

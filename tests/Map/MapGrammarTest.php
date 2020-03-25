@@ -1,8 +1,10 @@
 <?php
 
+namespace Nuwber\Plastic\Tests\Map;
+
 use Nuwber\Plastic\Map\Blueprint;
 
-class MapGrammarTest extends \PHPUnit_Framework_TestCase
+class MapGrammarTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @test

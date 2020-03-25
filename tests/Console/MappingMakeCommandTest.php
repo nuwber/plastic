@@ -1,6 +1,11 @@
 <?php
 
-class MappingMakeCommandTest extends \PHPUnit_Framework_TestCase
+namespace Nuwber\Plastic\Tests\DSL;
+
+use Mockery;
+use Nuwber\Plastic\Tests\TestCase;
+
+class MappingMakeCommandTest extends TestCase
 {
     /**
      * @test
@@ -11,7 +16,7 @@ class MappingMakeCommandTest extends \PHPUnit_Framework_TestCase
         $composer = Mockery::mock('Illuminate\Support\Composer');
         $vendorDir = __DIR__.'/vendor';
         $command = new \Nuwber\Plastic\Console\Mapping\Make($creator, $composer, $vendorDir);
-        $app = Mockery::mock(new Illuminate\Container\Container())->makePartial();
+        $app = Mockery::mock(new \Illuminate\Container\Container())->makePartial();
         $app->shouldReceive('databasePath')->andReturn(__DIR__);
         $command->setLaravel($app);
         $creator->shouldReceive('create')->once()->with('App\User', __DIR__.DIRECTORY_SEPARATOR.'mappings');
@@ -21,6 +26,6 @@ class MappingMakeCommandTest extends \PHPUnit_Framework_TestCase
 
     protected function runCommand($command, $input = [])
     {
-        return $command->run(new Symfony\Component\Console\Input\ArrayInput($input), new Symfony\Component\Console\Output\NullOutput());
+        return $command->run(new \Symfony\Component\Console\Input\ArrayInput($input), new \Symfony\Component\Console\Output\NullOutput());
     }
 }

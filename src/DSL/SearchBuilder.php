@@ -13,7 +13,6 @@ use ONGR\ElasticsearchDSL\Query\FullText\QueryStringQuery;
 use ONGR\ElasticsearchDSL\Query\FullText\SimpleQueryStringQuery;
 use ONGR\ElasticsearchDSL\Query\Geo\GeoBoundingBoxQuery;
 use ONGR\ElasticsearchDSL\Query\Geo\GeoDistanceQuery;
-use ONGR\ElasticsearchDSL\Query\Geo\GeoDistanceRangeQuery;
 use ONGR\ElasticsearchDSL\Query\Geo\GeoPolygonQuery;
 use ONGR\ElasticsearchDSL\Query\Geo\GeoShapeQuery;
 use ONGR\ElasticsearchDSL\Query\Joining\NestedQuery;
@@ -447,28 +446,6 @@ class SearchBuilder
     }
 
     /**
-     * Add a geo distance range query.
-     *
-     * @param string $field
-     * @param $from
-     * @param $to
-     * @param mixed $location
-     * @param array $attributes
-     *
-     * @return $this
-     */
-    public function geoDistanceRange($field, $from, $to, array $location, array $attributes = [])
-    {
-        $range = compact('from', 'to');
-
-        $query = new GeoDistanceRangeQuery($field, $range, $location, $attributes);
-
-        $this->append($query);
-
-        return $this;
-    }
-
-    /**
      * Add a geo polygon query.
      *
      * @param string $field
@@ -496,11 +473,11 @@ class SearchBuilder
      *
      * @return $this
      */
-    public function geoShape($field, $type, array $coordinates = [], array $attributes = [])
+    public function geoShape($field, $type, array $coordinates = [])
     {
         $query = new GeoShapeQuery();
 
-        $query->addShape($field, $type, $coordinates, $attributes);
+        $query->addShape($field, $type, $coordinates);
 
         $this->append($query);
 

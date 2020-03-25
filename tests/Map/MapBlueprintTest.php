@@ -1,6 +1,11 @@
 <?php
 
-class MapBlueprintTest extends PHPUnit_Framework_TestCase
+namespace Nuwber\Plastic\Tests\Map;
+
+use Mockery;
+use Nuwber\Plastic\Tests\TestCase;
+
+class MapBlueprintTest extends TestCase
 {
     /**
      * @test
@@ -13,9 +18,9 @@ class MapBlueprintTest extends PHPUnit_Framework_TestCase
             'body'  => ['posts' => ['_source' => ['enabled' => true], 'properties' => ['foo' => 'bar']]],
         ];
 
-        $connection = Mockery::mock(Nuwber\Plastic\Connection::class);
+        $connection = Mockery::mock(\Nuwber\Plastic\Connection::class);
         $connection->shouldReceive('mapStatement')->withArgs([$assertion])->once()->andReturn('ok');
-        $grammar = Mockery::mock(Nuwber\Plastic\Map\Grammar::class);
+        $grammar = Mockery::mock(\Nuwber\Plastic\Map\Grammar::class);
         $grammar->shouldReceive('compileCreate')->once()->andReturn(['foo' => 'bar']);
 
         $blueprint = new \Nuwber\Plastic\Map\Blueprint('posts');

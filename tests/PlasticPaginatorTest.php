@@ -1,16 +1,17 @@
 <?php
 
-class PlasticPaginatorTest extends \PHPUnit_Framework_TestCase
+namespace Nuwber\Plastic\Tests;
+
+class PlasticPaginatorTest extends TestCase
 {
     protected $elasticResult = [
-        'took'         => 0.2,
-        'timed_out'    => false,
-        '_shards'      => 2,
-        'hits'         => [
-            'total'     => 2,
+        'took' => 0.2,
+        'timed_out' => false,
+        '_shards' => 2,
+        'hits' => [
+            'total' => ['value' => 2],
             'max_score' => 3,
-            'hits'      => ['foo', 'bar'],
-
+            'hits' => ['foo', 'bar'],
         ],
         'aggregations' => ['aggregations'],
     ];

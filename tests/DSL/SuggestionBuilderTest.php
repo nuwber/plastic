@@ -1,6 +1,11 @@
 <?php
 
-class SuggestionBuilderTest extends PHPUnit_Framework_TestCase
+namespace Nuwber\Plastic\Tests\DSL;
+
+use Mockery;
+use Nuwber\Plastic\Tests\TestCase;
+
+class SuggestionBuilderTest extends TestCase
 {
     /**
      * @test

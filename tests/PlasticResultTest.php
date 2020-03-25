@@ -1,15 +1,17 @@
 <?php
 
-class PlasticResultTest extends \PHPUnit_Framework_TestCase
+namespace Nuwber\Plastic\Tests;
+
+class PlasticResultTest extends TestCase
 {
     protected $elasticResult = [
-        'took'         => 0.2,
-        'timed_out'    => false,
-        '_shards'      => 2,
-        'hits'         => [
-            'total'     => 2,
+        'took' => 0.2,
+        'timed_out' => false,
+        '_shards' => 2,
+        'hits' => [
+            'total' => ['value' => 2],
             'max_score' => 3,
-            'hits'      => ['foo', 'bar'],
+            'hits' => ['foo', 'bar'],
 
         ],
         'aggregations' => ['aggregations'],
@@ -75,6 +77,7 @@ class PlasticResultTest extends \PHPUnit_Framework_TestCase
     public function it_gets_the_query_shards()
     {
         $result = new \Nuwber\Plastic\PlasticResult($this->elasticResult);
+
         $this->assertEquals(2, $result->shards());
     }
 

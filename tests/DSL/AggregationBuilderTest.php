@@ -1,7 +1,10 @@
 <?php
 
+namespace Nuwber\Plastic\Tests\DSL;
 
-class AggregationBuilderTest extends PHPUnit_Framework_TestCase
+use Nuwber\Plastic\Tests\TestCase;
+
+class AggregationBuilderTest extends TestCase
 {
     /**
      * @test
@@ -40,6 +43,7 @@ class AggregationBuilderTest extends PHPUnit_Framework_TestCase
                             ['from' => '2001-3-3'],
                             ['to' => '2002-3-3'],
                         ],
+                        'keyed' => false,
                     ],
                 ],
             ],
@@ -262,6 +266,6 @@ class AggregationBuilderTest extends PHPUnit_Framework_TestCase
     {
         $query = new \ONGR\ElasticsearchDSL\Search();
 
-        return new Nuwber\Plastic\DSL\AggregationBuilder($query);
+        return new \Nuwber\Plastic\DSL\AggregationBuilder($query);
     }
 }

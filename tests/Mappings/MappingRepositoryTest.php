@@ -1,6 +1,11 @@
 <?php
 
-class MappingRepositoryTest extends \PHPUnit_Framework_TestCase
+namespace Nuwber\Plastic\Tests\Mappings;
+
+use Mockery;
+use Nuwber\Plastic\Tests\TestCase;
+
+class MappingRepositoryTest extends TestCase
 {
     /**
      * @test
@@ -23,9 +28,13 @@ class MappingRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function it_gets_the_last_bach_of_ran_mappings()
     {
-        $repo = $this->getMock('Nuwber\Plastic\Mappings\Mappings', ['getLastBatchNumber'], [
-            $resolver = Mockery::mock('Illuminate\Database\ConnectionResolverInterface'), 'mappings',
-        ]);
+        $repo = $this->getMockBuilder(\Nuwber\Plastic\Mappings\Mappings::class)
+            ->onlyMethods(['getLastBatchNumber'])
+            ->setConstructorArgs([
+                $resolver = Mockery::mock('Illuminate\Database\ConnectionResolverInterface'), 'mappings',
+            ])
+            ->getMock();
+
         $repo->expects($this->once())->method('getLastBatchNumber')->will($this->returnValue(1));
         $query = Mockery::mock('stdClass');
         $connectionMock = Mockery::mock('Illuminate\Database\Connection');
@@ -72,9 +81,13 @@ class MappingRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function it_gets_the_current_batch_number_plus_one()
     {
-        $repo = $this->getMock('Nuwber\Plastic\Mappings\Mappings', ['getLastBatchNumber'], [
-            Mockery::mock('Illuminate\Database\ConnectionResolverInterface'), 'mappings',
-        ]);
+        $repo = $this->getMockBuilder('Nuwber\Plastic\Mappings\Mappings')
+            ->onlyMethods(['getLastBatchNumber'])
+            ->setConstructorArgs([
+                Mockery::mock('Illuminate\Database\ConnectionResolverInterface'), 'mappings',
+            ])
+            ->getMock();
+
         $repo->expects($this->once())->method('getLastBatchNumber')->will($this->returnValue(1));
         $this->assertEquals(2, $repo->getNextBatchNumber());
     }
